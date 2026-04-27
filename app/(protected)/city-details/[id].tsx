@@ -1,22 +1,48 @@
-import { useLocalSearchParams, useRouter } from "expo-router";
-
 import { Screen } from "@/src/components/Screen";
+import { Text } from "@/src/components/Text";
 import CityDetailsHeader from "@/src/containers/CityDetailsHeader";
 import CityDetailsInfo from "@/src/containers/CityDetailsInfo";
 import CityDetailsMap from "@/src/containers/CityDetailsMap";
 import CityDetailsRelatedCities from "@/src/containers/CityDetailsRelatedCities";
 import CityDetailsTouristAttactions from "@/src/containers/CityDetailsTouristAttactions";
+import { useLocalSearchParams, useRouter } from "expo-router";
+
+import Divider from "@/src/components/Divider";
+import { useCityDetails } from "@/src/data/useCityDetails";
 
 export default function CityDetails() {
   const router = useRouter();
-  const { id } = useLocalSearchParams();
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const city = useCityDetails(id);
+
+  if (!city) {
+    return (
+      <Screen flex={1} justifyContent="center" alignItems="center">
+        <Text>City not found</Text>
+      </Screen>
+    );
+  }
 
   return (
-    <Screen>
-      <CityDetailsHeader />
-      <CityDetailsInfo />
-      <CityDetailsMap />
+    <Screen style={{ paddingHorizontal: 0 }}>
+      <CityDetailsHeader
+        id={city.id}
+        coverImage={city.coverImage}
+        categories={city.categories}
+      />
+      <CityDetailsInfo
+        name={city.name}
+        country={city.country}
+        description={city.description}
+      />
+
+      <Divider paddingHorizontal="padding" />
       <CityDetailsTouristAttactions />
+
+      <Divider paddingHorizontal="padding" />
+      <CityDetailsMap />
+
+      <Divider paddingHorizontal="padding" />
       <CityDetailsRelatedCities />
     </Screen>
   );
