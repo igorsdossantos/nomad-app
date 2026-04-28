@@ -1,3 +1,4 @@
+import Divider from "@/src/components/Divider";
 import { Screen } from "@/src/components/Screen";
 import { Text } from "@/src/components/Text";
 import CityDetailsHeader from "@/src/containers/CityDetailsHeader";
@@ -7,7 +8,6 @@ import CityDetailsRelatedCities from "@/src/containers/CityDetailsRelatedCities"
 import CityDetailsTouristAttactions from "@/src/containers/CityDetailsTouristAttactions";
 import { useLocalSearchParams, useRouter } from "expo-router";
 
-import Divider from "@/src/components/Divider";
 import { useCityDetails } from "@/src/data/useCityDetails";
 
 export default function CityDetails() {

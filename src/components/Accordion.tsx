@@ -1,6 +1,10 @@
 import theme from "@/src/theme/theme";
-import { useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
+import Animated, {
+  SharedValue,
+  useAnimatedStyle,
+  useSharedValue,
+} from "react-native-reanimated";
 import { Box } from "./Box";
 import { Icon } from "./Icon";
 import { Text } from "./Text";
@@ -11,12 +15,17 @@ type AccordionProps = {
 };
 
 export default function Accordion({ title, description }: AccordionProps) {
-  const [isOpen, setIsOpen] = useState(false);
+  const isOpen = useSharedValue(false);
+
+  function handleOpenPress() {
+    isOpen.value = !isOpen.value;
+  }
+
   return (
-    <Pressable onPress={() => setIsOpen(!isOpen)}>
+    <Pressable onPress={handleOpenPress}>
       <View>
         <AccordionHeader title={title} />
-        {isOpen && <AccordionBody description={description} />}
+        <AccordionBody description={description} isOpen={isOpen} />
       </View>
     </Pressable>
   );
@@ -33,11 +42,25 @@ function AccordionHeader({ title }: { title: string }) {
   );
 }
 
-function AccordionBody({ description }: { description: string }) {
+function AccordionBody({
+  description,
+  isOpen,
+}: {
+  description: string;
+  isOpen: SharedValue<boolean>;
+}) {
+  const animatedStyle = useAnimatedStyle(() => {
+    return {
+      height: isOpen.value ? 100 : 0,
+    };
+  });
+
   return (
-    <View style={styles.body}>
-      <Text>{description}</Text>
-    </View>
+    <Animated.View style={animatedStyle}>
+      <View style={styles.body}>
+        <Text>{description}</Text>
+      </View>
+    </Animated.View>
   );
 }
 
