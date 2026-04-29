@@ -4,7 +4,7 @@ const palette = {
   fieryRed: "#FF4B4B",
   midnightBlack: "#1B1B1B",
   charcoalGray: "#302E2D",
-  stoneGrey: "5C5C5C",
+  stoneGrey: "#5C5C5C",
   pureWhite: "#FFFFFF",
 };
 
