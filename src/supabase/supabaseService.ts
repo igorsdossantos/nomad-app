@@ -1,5 +1,6 @@
-import { Category, CategoryCode, CityPreview } from "../types";
+import { Category, CategoryCode, City, CityPreview } from "../types";
 import { supabase } from "./supabase";
+import { supabaseAdpter } from "./supabaseAdapter";
 
 const storageURL = process.env.EXPO_PUBLIC_SUPABASE_STORAGE_URL;
 
@@ -63,4 +64,18 @@ async function litsCategory(): Promise<Category[]> {
   }));
 }
 
-export const supabaseService = { findAll, litsCategory };
+async function findByID(id: string): Promise<City> {
+  const { data, error } = await supabase
+    .from("cities_with_full_info")
+    .select("*")
+    .eq("id", id)
+    .single();
+
+  if (error) {
+    throw new Error("city not found");
+  }
+
+  return supabaseAdpter.toCity(data);
+}
+
+export const supabaseService = { findAll, litsCategory, findByID };

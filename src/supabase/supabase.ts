@@ -1,6 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import "expo-sqlite/localStorage/install";
-import { Database } from "./types.ts";
+import { Database } from "./types";
 
 function getSupabaseEnvs(): { url: string; anonKey: string } {
   const url = process.env.EXPO_PUBLIC_SUPABASE_URL;
